@@ -1,0 +1,1 @@
+# vscode-dev-containers-aws-terraform-template
