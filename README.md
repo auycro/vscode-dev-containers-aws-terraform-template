@@ -1,6 +1,12 @@
 # vscode-dev-containers-aws-terraform-template
 
-This repository offers a template for using Terraform and AWS CLI in VS Code
+This repository offers a template for using below tool in VS Code
+ - Terraform
+ - AWS CLI
+ - aws-iam-authenticator
+ - kubectl
+ - helm
+ - minikube
 
 🚧 work in progress 🚧
 
@@ -13,6 +19,10 @@ Check the Version
 ```sh
 $ terraform -version
 $ aws --version
+$ aws-iam-authenticator version
+$ kubectl version
+$ helm version
+$ minikube version
 ```
 
 Setting up aws cli

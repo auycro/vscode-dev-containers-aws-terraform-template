@@ -23,6 +23,11 @@ ARG INSTALL_AWS_CLI="true"
 ARG INSTALL_DOCKER="true"
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
 ARG NODE_VERSION="none"
+# Install aws-iam-authenticator
+ARG INSTALL_AWS_IAM_AUTHEN="true"
+# Install K8s tools (kubectl, helm, minikube)
+ARG INSTALL_K8S_TOOLS="true"
+
 ENV NVM_DIR=/usr/local/share/nvm
 ENV NVM_SYMLINK_CURRENT=true \
     PATH=${NVM_DIR}/current/bin:${PATH}
@@ -32,6 +37,12 @@ RUN if [ "${INSTALL_AWS_CLI}" = "true" ]; then bash /tmp/library-scripts/awscli-
         bash /tmp/library-scripts/docker-debian.sh "true" "/var/run/docker-host.sock" "/var/run/docker.sock" "${USERNAME}"; \
     else \
         echo '#!/bin/bash\n"$@"' > /usr/local/share/docker-init.sh && chmod +x /usr/local/share/docker-init.sh; \
+    fi \
+    && if [ "${INSTALL_AWS_IAM_AUTHEN}" != "none" ]; then bash /tmp/library-scripts/aws-iam-authenticator-debian.sh; fi \
+    && if [ "${INSTALL_KUBECTL}" != "none" ]; then \
+        bash /tmp/library-scripts/kubectl-helm-debian.sh "latest" "latest" "latest" \
+        && mkdir -p /home/${USERNAME}/.minikube \
+        && chown ${USERNAME} /home/${USERNAME}/.minikube ; \
     fi \
     && rm -rf /var/lib/apt/lists/*
 
